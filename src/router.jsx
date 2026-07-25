@@ -4,6 +4,7 @@ import Supervisors from "./components/Supervisors";
 import Signup from "./components/Signup";
 import Signin from "./components/Signin";
 import ProjectIdeas from "./components/Project_ideas";
+import CreateProfile from "./components/Profile";
 
 
 export const router = createBrowserRouter([
@@ -12,4 +13,5 @@ export const router = createBrowserRouter([
     {path: "/signup", element: <Signup />},
     {path: "/signin", element: <Signin />},
     {path: "/project-ideas", element: <ProjectIdeas />},
+    {path: "/profile", element: <CreateProfile />},
 ]);

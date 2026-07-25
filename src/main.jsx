@@ -8,7 +8,7 @@ import { AuthContextProvider } from "./context/AuthContext.jsx";
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <>
-    <h1 className="text-center pt-4 text-3xl">
+    <h1 className="text-center pt-2 text-3xl">
       Supervisor Finder
       </h1>
       <AuthContextProvider>
