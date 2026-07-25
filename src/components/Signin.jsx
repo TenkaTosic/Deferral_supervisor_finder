@@ -24,7 +24,7 @@ const handleSignIn = async (e) => {
       }, 3000); // 3000 milliseconds = 3 seconds
     } else {
       // Redirect or perform any necessary actions after successful sign-in
-      navigate("/supervisor-finder");
+      navigate("/");
     }
 
     if (session) {
@@ -34,7 +34,7 @@ const handleSignIn = async (e) => {
 
     return <div>
         <form onSubmit={handleSignIn} className="max-w-md m-auto pt-24">
-            <h2 className="font-bold pb-2">Sign In Page</h2>
+            <h2 className="font-bold pb-2">Sign In</h2>
             <p>
                 Don't have an account? <Link className="text-blue-500 hover:underline" to='/signup'>Sign up!</Link>
             </p>

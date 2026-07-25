@@ -18,7 +18,7 @@ const handleSignUp = async (e) => {
       const result = await signUpNewUser(email, password); // Call context function
 
       if (result.success) {
-        navigate("/supervisor-finder"); // Navigate to supervisor finder on success
+        navigate("/"); // Navigate to supervisor finder on success
       } else {
         setError(result.error.message); // Show error message on failure
       }
