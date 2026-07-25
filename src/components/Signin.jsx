@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext.jsx";
 
 const Signin = () => {
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
-const [loading, setLoading] = useState(false);
+const [loading] = useState(false);
 const [error, setError] = useState('');
 
 const { session, signInUser } = UserAuth();
@@ -28,7 +28,6 @@ const handleSignIn = async (e) => {
     }
 
     if (session) {
-      closeModal();
       setError(""); // Reset the error when there's a session
     }
   };

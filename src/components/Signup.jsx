@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext.jsx";
 
@@ -22,7 +22,7 @@ const handleSignUp = async (e) => {
       } else {
         setError(result.error.message); // Show error message on failure
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred."); // Catch unexpected errors
     } finally {
       setLoading(false); // End loading state
