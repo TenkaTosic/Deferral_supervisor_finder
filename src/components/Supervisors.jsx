@@ -6,45 +6,43 @@ const Supervisors = () => {
     const { session, signOut } = UserAuth();
     const navigate = useNavigate();
 
-    console.log(session);
+const handleSignOut = async (e) => {
+    e.preventDefault();
+    try {
+        await signOut();
+        window.location.reload();
+        navigate('/');
+    } catch (err) {
+        console.error(err);
+    }
+};
 
-    const handleSignOut = async (e) => {
-        e.preventDefault();
-        try {
-            await signOut();
-            window.location.reload();
-            navigate('/');
-        } catch (err) {
-            console.error(err);
-        }
-    };
+const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+        navigate('/signin');
+    } catch (err) {
+        console.error(err);
+    }
+};
 
-    const handleSignIn = async (e) => {
-        e.preventDefault();
-        try {
-            navigate('/signin');
-        } catch (err) {
-            console.error(err);
-        }
-    };
+const handleCreateProfile = async (e) => {
+    e.preventDefault();
+    try {
+        navigate('/profile');
+    } catch (err) {
+        console.error(err);
+    }
+};
 
-    const handleCreateProfile = async (e) => {
-        e.preventDefault();
-        try {
-            navigate('/profile');
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const handleProjectIdeas = async (e) => {
-        e.preventDefault();
-        try {
-            navigate('/project-ideas');
-        } catch (err) {
-            console.error(err);
-        }
-    };
+const handleProjectIdeas = async (e) => {
+    e.preventDefault();
+    try {
+        navigate('/project-ideas');
+    } catch (err) {
+        console.error(err);
+    }
+};
 
     return (
         <div>
