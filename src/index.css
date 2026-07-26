@@ -107,3 +107,20 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.toggle-btn {
+  background-color: #585b5c;
+  border-radius: 99px;
+  width: auto;
+  padding: 0 10px;
+  height: 25px;
+  transition: background-color 0.1s ease;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.toggle-btn.toggled {
+  background-color: #33ca6b;
+}
