@@ -6,6 +6,21 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
     const [session, setSession] = useState(undefined);
 
+    //Save Profile
+    const saveProfile = async (name, contactOffice, contactEmail) => {
+        const {data, error} = await supabase.from("profile").update({
+            name: name,
+            contact_office: contactOffice,
+            contact_email: contactEmail,
+        }).eq("id", session?.user?.id).select();
+
+        if (error) {
+            console.error("there was an error saving the profile:", error);
+            return { success: false, error: error };
+        }
+        return { success: true, data: data };
+    };
+
     //Sign Up
     const signUpNewUser = async (email, password) => {
         const { data, error } = await supabase.auth.signUp({
@@ -67,7 +82,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ session, signUpNewUser, signInUser, signOut }}>
+        <AuthContext.Provider value={{ session, signUpNewUser, signInUser, signOut, saveProfile }}>
             {children}
         </AuthContext.Provider>
     )
