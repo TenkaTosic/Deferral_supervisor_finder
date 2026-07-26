@@ -11,26 +11,17 @@ const Profile = () => {
     const [contactOffice, setContactOffice] = useState("");
     const [contactEmail, setContactEmail] = useState("");
 
-    const [namePlaceholder, setNamePlaceholder] = useState("Name");
-    const [contactOfficePlaceholder, setContactOfficePlaceholder] = useState("Office Room");
-    const [contactEmailPlaceholder, setContactEmailPlaceholder] = useState("Contact Email");
-
     useEffect(() => {
         const loadProfile = async () => {
             const { data, error } = await supabase
                 .from("profile")
                 .select("name, contact_office, contact_email")
                 .eq("id", session?.user?.id);
-            
-            
-            console.log("session id:", session?.user?.id);
-            console.log("data:", data);
-            console.log("error:", error);
 
             if (!error && data) {
-                setNamePlaceholder(data?.name || "Name");
-                setContactOfficePlaceholder(data?.contact_office || "Office Room");
-                setContactEmailPlaceholder(data?.contact_email || "Contact Email");
+                setName(data[0]?.name || "Name");
+                setContactOffice(data[0]?.contact_office || "Office Room");
+                setContactEmail(data[0]?.contact_email || "Contact Email");
             }
         };
 
