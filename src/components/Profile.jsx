@@ -25,8 +25,22 @@ const Profile = () => {
             }
         };
 
+        const loadSavedTags = async () => {
+            if (!session?.user?.id) return;
+
+            const { data, error } = await supabase
+                .from("profile_tag")
+                .select("tag_id")
+                .eq("profile_id", session.user.id);
+
+            if (!error && data) {
+                setSelectedTags(data.map((item) => item.tag_id));
+            }
+        };
+
         loadTags();
-    }, []);
+        loadSavedTags();
+    }, [session?.user?.id]);
 
 
     //name, email, office room
@@ -49,7 +63,44 @@ const Profile = () => {
 
     const handleSaveProfile = async (e) => {
         e.preventDefault();
-        const { session, error } = await saveProfile(name, contactOffice, contactEmail); // Use your saveProfile function
+
+        const { data: profileData, error: profileError } = await saveProfile(name, contactOffice, contactEmail);
+
+        if (profileError) {
+            console.error("Failed to save profile", profileError);
+            return;
+        }
+
+        const profileId = session?.user?.id;
+
+        if (!profileId) {
+            console.error("No profile id available");
+            return;
+        }
+
+        const { error: deleteError } = await supabase
+            .from("profile_tag")
+            .delete()
+            .eq("profile_id", profileId);
+
+        if (deleteError) {
+            console.error("Failed to clear old tags", deleteError);
+            return;
+        }
+
+        if (selectedTags.length > 0) {
+            const rows = selectedTags.map((tagId) => ({
+                profile_id: profileId,
+                tag_id: tagId,
+            }));
+
+            const { error: insertError } = await supabase.from("profile_tag").insert(rows);
+
+            if (insertError) {
+                console.error("Failed to save selected tags", insertError);
+            }
+        }
+
         navigate("/");
     };
 
