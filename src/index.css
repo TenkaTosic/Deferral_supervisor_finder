@@ -124,3 +124,16 @@ code {
 .toggle-btn.toggled {
   background-color: #33ca6b;
 }
+
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #db8efa; /* Highlight color */
+  padding: 6px;
+  border-radius: 99px;
+  color: #fff;
+}   

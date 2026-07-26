@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient.js";
 import { UserAuth } from "../context/AuthContext.jsx";
+import NavBar from "./NavBar.jsx";
 
 const Profile = () => {
     const { session, saveProfile } = UserAuth();
@@ -42,7 +43,6 @@ const Profile = () => {
         loadSavedTags();
     }, [session?.user?.id]);
 
-
     //name, email, office room
     useEffect(() => {
         const loadProfile = async () => {
@@ -74,7 +74,7 @@ const Profile = () => {
         const profileId = session?.user?.id;
 
         if (!profileId) {
-            console.error("No profile id available");
+            console.error("Profile id was not available");
             return;
         }
 
@@ -105,57 +105,59 @@ const Profile = () => {
     };
 
     return (
-        <div className="center">
-            <input
-                className="p-3 w-100 bg-black text-white"
-                type="text"
-                placeholder={name}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-            <input
-                className="p-3 w-40 bg-black text-white ml-2"
-                type="text"
-                placeholder={contactOffice}
-                value={contactOffice}
-                onChange={(e) => setContactOffice(e.target.value)}
-            />
-
-            <div className="center mt-4">
+        <div>
+            <NavBar />
+            <div className="center mt-4 ">
                 <input
-                    className="p-3 w-150 bg-black text-white"
-                    type="email"
-                    placeholder={contactEmail}
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
+                    className="p-3 w-100 bg-black text-white"
+                    type="text"
+                    placeholder={name}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                 />
-            </div>
-            <div className="center mt-4 flex flex-wrap gap-2">
-                {tags.map((item, index) => {
-                    const isSelected = selectedTags.includes(item.id);
+                <input
+                    className="p-3 w-40 bg-black text-white ml-2"
+                    type="text"
+                    placeholder={contactOffice}
+                    value={contactOffice}
+                    onChange={(e) => setContactOffice(e.target.value)}
+                />
 
-                    return (
-                        <button
-                            key={item.id ?? `${item.tag_name}-${index}`}
-                            type="button"
-                            onClick={() =>
-                                setSelectedTags((prev) =>
-                                    prev.includes(item.id)
-                                        ? prev.filter((id) => id !== item.id)
-                                        : [...prev, item.id]
-                                )
-                            }
-                            className={`toggle-btn ${isSelected ? "toggled" : ""}`}
-                        >
-                            {item.tag_name || "Tag"}
-                        </button>
-                    );
-                })}
+                <div className="center mt-4">
+                    <input
+                        className="p-3 w-150 bg-black text-white"
+                        type="email"
+                        placeholder={contactEmail}
+                        value={contactEmail}
+                        onChange={(e) => setContactEmail(e.target.value)}
+                    />
+                </div>
+                <div className="center mt-4 flex flex-wrap gap-2">
+                    {tags.map((item, index) => {
+                        const isSelected = selectedTags.includes(item.id);
+
+                        return (
+                            <button
+                                key={item.id ?? `${item.tag_name}-${index}`}
+                                type="button"
+                                onClick={() =>
+                                    setSelectedTags((prev) =>
+                                        prev.includes(item.id)
+                                            ? prev.filter((id) => id !== item.id)
+                                            : [...prev, item.id]
+                                    )
+                                }
+                                className={`toggle-btn ${isSelected ? "toggled" : ""}`}
+                            >
+                                {item.tag_name || "Tag"}
+                            </button>
+                        );
+                    })}
+                </div>
+                <button onClick={handleSaveProfile} className="bg-blue-500 text-white p-3 mt-3 rounded">
+                    Save Profile
+                </button>
             </div>
-            
-            <button onClick={handleSaveProfile} className="bg-blue-500 text-white p-3 mt-3 w-fit">
-                Save Profile
-            </button>
         </div>
     );
 };

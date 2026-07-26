@@ -5,6 +5,7 @@ import Signup from "./components/Signup";
 import Signin from "./components/Signin";
 import ProjectIdeas from "./components/Project_ideas";
 import CreateProfile from "./components/Profile";
+import AddProject from "./components/Add_Project_Idea";
 
 
 export const router = createBrowserRouter([
@@ -14,4 +15,5 @@ export const router = createBrowserRouter([
     {path: "/signin", element: <Signin />},
     {path: "/project-ideas", element: <ProjectIdeas />},
     {path: "/profile", element: <CreateProfile />},
+    {path: "/add-project-idea", element: <AddProject />},
 ]);

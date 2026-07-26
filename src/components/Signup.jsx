@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext.jsx";
+import NavBar from "./NavBar.jsx";
 
 const Signup = () => {
 const [email, setEmail] = useState('');
@@ -30,6 +31,7 @@ const handleSignUp = async (e) => {
   };
 
     return <div>
+      <NavBar />
         <form onSubmit={handleSignUp} className="max-w-md m-auto pt-24">
             <h2 className="font-bold pb-2">Sign Up</h2>
             <p>
