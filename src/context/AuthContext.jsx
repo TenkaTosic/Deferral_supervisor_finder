@@ -41,7 +41,8 @@ export const AuthContextProvider = ({ children }) => {
                 title: safeTitle,
                 description: safeDescription,
             })
-            .select();
+            .eq("id", session?.user?.id).select();
+
 
         if (error) {
             console.error("There was an error saving the project idea:", error);

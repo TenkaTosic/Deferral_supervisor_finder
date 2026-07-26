@@ -13,6 +13,7 @@ const Profile = () => {
     const [contactEmail, setContactEmail] = useState("");
     const [tags, setTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
+    const [projectIdeas, setProjectIdeas] = useState([]);
 
     useEffect(() => {
         const loadTags = async () => {
@@ -39,8 +40,19 @@ const Profile = () => {
             }
         };
 
+        const yourProjectIdeas = async () => {
+            const { data, error } = await supabase
+                .from('profile_project')
+                .select('project_id, title, description')
+                .eq("profile_id", session?.user?.id);
+
+            if (!error) setProjectIdeas(data || []);
+        };
+        
+
         loadTags();
         loadSavedTags();
+        yourProjectIdeas();
     }, [session?.user?.id]);
 
     //name, email, office room
@@ -60,6 +72,22 @@ const Profile = () => {
 
         loadProfile();
     }, [session?.user?.id]);
+
+    const handleDeleteProject = async (projectId) => {
+        if (!projectId) return;
+
+        const { error } = await supabase
+            .from("profile_project")
+            .delete()
+            .eq("project_id", projectId);
+
+        if (error) {
+            console.error("Failed to delete project idea", error);
+            return;
+        }
+
+        setProjectIdeas((prev) => prev.filter((item) => item.project_id !== projectId));
+    };
 
     const handleSaveProfile = async (e) => {
         e.preventDefault();
@@ -107,7 +135,7 @@ const Profile = () => {
     return (
         <div>
             <NavBar />
-            <div className="center mt-4 ">
+            <div className="center mt-10 ">
                 <input
                     className="p-3 w-100 bg-black text-white"
                     type="text"
@@ -132,6 +160,7 @@ const Profile = () => {
                         onChange={(e) => setContactEmail(e.target.value)}
                     />
                 </div>
+                <div className="text-white text-3xl p-4 mt-6">Interests</div>
                 <div className="center mt-4 flex flex-wrap gap-2">
                     {tags.map((item, index) => {
                         const isSelected = selectedTags.includes(item.id);
@@ -154,9 +183,39 @@ const Profile = () => {
                         );
                     })}
                 </div>
-                <button onClick={handleSaveProfile} className="bg-blue-500 text-white p-3 mt-3 rounded">
+                <button style={{ cursor: 'pointer' }} onClick={handleSaveProfile} className="bg-blue-500 text-white p-3 mt-3 rounded">
                     Save Profile
                 </button>
+                    <div className="text-white text-3xl p-4 mt-6">Project Ideas you made</div>
+                        <div>{projectIdeas.map((item) => (
+                            <div style={{ 
+                                padding: '20px', 
+                                border: '1px solid #ccc', 
+                                borderRadius: '8px', 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                gap: '10px',
+                                maxWidth: 'auto'
+                                }} key={item.project_id}> 
+                            <div className="text-white font-bold text-xl">
+                                {item.title}
+                            </div>
+                            <div className="text-white">
+                                {item.description}
+                            </div>
+                            <div flex justify-center>
+                            <button
+                                className="delete-btn"
+                                onClick={() => handleDeleteProject(item.project_id)}
+                            >
+                                Delete
+                            </button>
+                                </div>
+                            
+                            </div>
+                        
+                            ))}
+                        </div>
             </div>
         </div>
     );

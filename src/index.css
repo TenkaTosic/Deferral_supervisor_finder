@@ -128,12 +128,30 @@ code {
 .nav-link {
   text-decoration: none;
   color: #fff;
+  padding: 6px;
   transition: background-color 0.3s ease;
 }
 
 .nav-link:hover {
-  background-color: #db8efa; /* Highlight color */
+  background-color: #353261; /* Highlight color */
   padding: 6px;
   border-radius: 99px;
   color: #fff;
-}   
+}
+
+.delete-btn {
+  background-color: #581515;
+  border-radius: 10px;
+  width: auto;
+  padding: 0 15px;
+  height: 30px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #ec2a2a;
+}
