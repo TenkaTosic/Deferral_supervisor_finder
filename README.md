@@ -11,3 +11,4 @@ Supervisor Finder is a Web application built with Supabase, React and tailwind, 
 ## Preview Images
 
 ### Sign In
+![](src/assets/read_me_pics/signIn.png)
