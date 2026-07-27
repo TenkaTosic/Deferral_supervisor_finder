@@ -49,7 +49,7 @@ ReadTheDocs Page: [Link]()
    npm install React
    ```
 
-Download Vito following: [Link](https://tailwindcss.com/docs/installation/using-vite)
+Download Vite following: [Link](https://tailwindcss.com/docs/installation/using-vite)
 
 3. Start the app
 
