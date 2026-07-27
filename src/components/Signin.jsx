@@ -38,7 +38,7 @@ const handleSignIn = async (e) => {
         <form onSubmit={handleSignIn} className="max-w-md m-auto pt-24">
             <h2 className="font-bold pb-2">Sign In</h2>
             <p>
-              <Link className="text-blue-500 hover:underline" to='/signup'>Sign up!</Link>
+              {/* <Link className="text-blue-500 hover:underline" to='/signup'>Sign up!</Link> */}
             </p>
             <div className="flex flex-col py-4">
                 {/* Email input */}
