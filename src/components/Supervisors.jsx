@@ -16,7 +16,7 @@ const Supervisors = () => {
     const timerId = setTimeout(async () => {
         setLoading(true);
 
-        // 1. Fetch ALL data (no tag filter in the query)
+        //Gets data needed to print all supervisors with data relating to them
         let query = supabase
         .from('profile')
         .select(`
@@ -30,10 +30,10 @@ const Supervisors = () => {
             )
             )
         `)
-        .not('name', 'is', null)
-        .neq('name', '');
+        .not('name', 'is', null) //if new supervisor was added and never updated their profile
+        .neq('name', ''); //if supervisor updated their profile but left their name area empty
         
-        // Optional: Filter by name in DB if needed
+        //Filters Supervisors by name (for name search)
         if (nameTerm) {
         query = query.ilike('name', `%${nameTerm}%`);
         }
@@ -43,7 +43,7 @@ const Supervisors = () => {
         if (!error) {
         let results = data || [];
 
-        // 2. Filter by Tag in JavaScript
+        //Filter by Tag connect to supervisors (for tag search)
         if (tagTerm) {
             results = results.filter(profile => {
             return profile.profile_tag.some(pt => 
@@ -65,7 +65,8 @@ const Supervisors = () => {
             <NavBar />
             <h2>Welcome, {session?.user?.email??'Student'}</h2>
             <h1>Supervisors</h1>
-            <div className="Search-Container">
+            {/* Database of Supervisors being showned */}
+            <div>
             {/* Name Search */}
             <input
                 type="text"

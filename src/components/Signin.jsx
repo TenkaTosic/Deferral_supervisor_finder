@@ -14,22 +14,22 @@ const navigate = useNavigate();
 
 const handleSignIn = async (e) => {
     e.preventDefault();
-    const { session, error } = await signInUser(email, password); // Use your signIn function
+    const { session, error } = await signInUser(email, password); //Use your signIn function
 
     if (error) {
-      setError(error); // Set the error message if sign-in fails
+      setError(error); //Set the error message if sign-in fails
 
-      // Set a timeout to clear the error message after a specific duration (e.g., 3 seconds)
+      //Set a timeout to clear the error message after a specific duration (e.g., 3 seconds)
       setTimeout(() => {
         setError("");
-      }, 3000); // 3000 milliseconds = 3 seconds
+      }, 3000); //3 seconds
     } else {
-      // Redirect or perform any necessary actions after successful sign-in
+      //Redirect any necessary actions after successful sign-in
       navigate("/");
     }
 
     if (session) {
-      setError(""); // Reset the error when there's a session
+      setError(""); //Reset the error when there's a session
     }
   };
 
@@ -41,9 +41,13 @@ const handleSignIn = async (e) => {
               <Link className="text-blue-500 hover:underline" to='/signup'>Sign up!</Link>
             </p>
             <div className="flex flex-col py-4">
+                {/* Email input */}
                 <input onChange={(e) => setEmail(e.target.value)} className="p-3 mt-6 bg-black" type="email" placeholder="Email" />
+                {/* Password input */}
                 <input onChange={(e) => setPassword(e.target.value)} className="p-3 mt-6 bg-black" type="password" placeholder="Password" />
+                {/* Sign In button */}
                 <button type="submit" disabled={loading} className="bg-blue-500 text-white p-3 mt-6">Sign In</button>
+            {/* Shows error if it exists */}
             {error && <p className="text-red-600 text-center pt-4">{error}</p>}
             </div>
         </form>
