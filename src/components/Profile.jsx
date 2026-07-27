@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient.js";
 import { UserAuth } from "../context/AuthContext.jsx";
@@ -17,6 +17,7 @@ const Profile = () => {
 
     useEffect(() => {
         const loadTags = async () => {
+            //Grabs all tags of interests from databse
             const { data, error } = await supabase
             .from("tag")
             .select("tag_name, id")
@@ -27,9 +28,10 @@ const Profile = () => {
             }
         };
 
+        //Show tags the user saved on their profile
         const loadSavedTags = async () => {
             if (!session?.user?.id) return;
-
+            //Connects and gets all saved tags the user has from database
             const { data, error } = await supabase
                 .from("profile_tag")
                 .select("tag_id")
@@ -40,7 +42,9 @@ const Profile = () => {
             }
         };
 
+        //Shows all your own project ideas
         const yourProjectIdeas = async () => {
+            //Gets all saved project ideas the user has from database
             const { data, error } = await supabase
                 .from('profile_project')
                 .select('project_id, title, description')
@@ -55,13 +59,13 @@ const Profile = () => {
         yourProjectIdeas();
     }, [session?.user?.id]);
 
-    //name, email, office room
+    //Prints the name, contact email and contact office saved on database
     useEffect(() => {
         const loadProfile = async () => {
             const { data, error } = await supabase
                 .from("profile")
                 .select("name, contact_office, contact_email")
-                .eq("id", session?.user?.id);
+                .eq("id", session?.user?.id); //make sure to retrieve data from only user data
 
             if (!error && data) {
                 setName(data[0]?.name || "Name");
@@ -73,14 +77,16 @@ const Profile = () => {
         loadProfile();
     }, [session?.user?.id]);
 
+    //Delete Project Idea
     const handleDeleteProject = async (projectId) => {
         if (!projectId) return;
-
+        //Delete project idea from the database
         const { error } = await supabase
             .from("profile_project")
             .delete()
-            .eq("project_id", projectId);
+            .eq("project_id", projectId); //make sure the its the same project being removed as the request.
 
+        //handle errors
         if (error) {
             console.error("Failed to delete project idea", error);
             return;
@@ -89,6 +95,7 @@ const Profile = () => {
         setProjectIdeas((prev) => prev.filter((item) => item.project_id !== projectId));
     };
 
+    //Saves profile with all new information being saved to database
     const handleSaveProfile = async (e) => {
         e.preventDefault();
 
@@ -160,6 +167,7 @@ const Profile = () => {
                         onChange={(e) => setContactEmail(e.target.value)}
                     />
                 </div>
+                {/* Tag of Interests */}
                 <div className="text-white text-3xl p-4 mt-6">Interests</div>
                 <div className="center mt-4 flex flex-wrap gap-2">
                     {tags.map((item, index) => {
@@ -186,6 +194,7 @@ const Profile = () => {
                 <button style={{ cursor: 'pointer' }} onClick={handleSaveProfile} className="bg-blue-500 text-white p-3 mt-3 rounded">
                     Save Profile
                 </button>
+                    {/* Projects Ideas made by user */}
                     <div className="text-white text-3xl p-4 mt-6">Project Ideas you made</div>
                         <div>{projectIdeas.map((item) => (
                             <div style={{ 
@@ -204,10 +213,10 @@ const Profile = () => {
                                 {item.description}
                             </div>
                             <div flex justify-center>
+                            {/* Delete */}
                             <button
                                 className="delete-btn"
-                                onClick={() => handleDeleteProject(item.project_id)}
-                            >
+                                onClick={() => handleDeleteProject(item.project_id)}>
                                 Delete
                             </button>
                                 </div>

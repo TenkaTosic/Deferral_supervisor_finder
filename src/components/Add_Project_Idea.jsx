@@ -20,6 +20,7 @@ const AddProject = () => {
             return;
         }
 
+        //Just in-case if non sign in user able to get access to this page
         if (!session?.user?.id) {
             setMessage("You need to be signed in to add a project idea.");
             return;

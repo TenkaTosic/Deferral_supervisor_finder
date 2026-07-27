@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext.jsx";
 
+//Navigation Bar on top of all pages
 const NavBar = () => {
     const { session, signOut } = UserAuth();
     const navigate = useNavigate();

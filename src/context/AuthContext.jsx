@@ -8,12 +8,16 @@ export const AuthContextProvider = ({ children }) => {
 
     //Save Profile
     const saveProfile = async (name, contactOffice, contactEmail) => {
-        const {data, error} = await supabase.from("profile").update({
+        //Updates profile table in supabase
+        const {data, error} = await supabase
+        .from("profile")
+        .update({
             name: name,
             contact_office: contactOffice,
             contact_email: contactEmail,
-        }).eq("id", session?.user?.id).select();
+        }).eq("id", session?.user?.id).select(); //Make sure that the current user changes only their own profile
 
+        //handle errors
         if (error) {
             console.error("there was an error saving the profile:", error);
             return { success: false, error: error };
@@ -33,7 +37,8 @@ export const AuthContextProvider = ({ children }) => {
         if (!safeTitle) {
             return { success: false, error: "Title is required" };
         }
-
+        
+        //Adds new Project Idea to the database in table profile_project
         const { data, error } = await supabase
             .from("profile_project")
             .insert({
@@ -43,7 +48,7 @@ export const AuthContextProvider = ({ children }) => {
             })
             .eq("id", session?.user?.id).select();
 
-
+        //handle errors
         if (error) {
             console.error("There was an error saving the project idea:", error);
             return { success: false, error };
@@ -52,13 +57,15 @@ export const AuthContextProvider = ({ children }) => {
         return { success: true, data };
     };
 
-    //Sign Up
+    //Sign Up (Not made for it being easy to add supervisors)
     const signUpNewUser = async (email, password) => {
+        //sign the user up to the database
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
         });
 
+        //handles errors
         if (error) {
             console.error("there was a problem signing up:", error);
             return { success: false, error: error };
@@ -69,22 +76,23 @@ export const AuthContextProvider = ({ children }) => {
     //Sign In
     const signInUser = async (email, password) => {
         try {
-          const { data, error } = await supabase.auth.signInWithPassword({
+            //Checks if correct details were enter to sign in to user with database
+            const { data, error } = await supabase.auth.signInWithPassword({
             email: email.toLowerCase(),
             password: password,
-          });
+            });
     
-          // Handle Supabase error explicitly
+          //Handle errors
           if (error) {
             console.error("Sign-in error:", error.message); // Log the error for debugging
             return { success: false, error: error.message }; // Return the error
           }
     
-          // If no error, return success
+          //If no error, return success
           console.log("Sign-in success:", data);
           return { success: true, data }; // Return the user data
         } catch (error) {
-          // Handle unexpected issues
+          //Handle unexpected issues
           console.error("Unexpected error during sign-in:", error.message);
           return {
             success: false,
@@ -107,6 +115,7 @@ export const AuthContextProvider = ({ children }) => {
     //Sign out
     const signOut = () => {
         const { error } = supabase.auth.signOut();
+        //handles expected errors
         if (error) {
             console.error("there was an error:", error);
         };
