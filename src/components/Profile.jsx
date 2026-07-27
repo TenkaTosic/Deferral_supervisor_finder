@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient.js";
 import { UserAuth } from "../context/AuthContext.jsx";
+import NavBar from "./NavBar.jsx";
 
 const Profile = () => {
     const { session, saveProfile } = UserAuth();
@@ -12,6 +13,7 @@ const Profile = () => {
     const [contactEmail, setContactEmail] = useState("");
     const [tags, setTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
+    const [projectIdeas, setProjectIdeas] = useState([]);
 
     useEffect(() => {
         const loadTags = async () => {
@@ -38,10 +40,20 @@ const Profile = () => {
             }
         };
 
+        const yourProjectIdeas = async () => {
+            const { data, error } = await supabase
+                .from('profile_project')
+                .select('project_id, title, description')
+                .eq("profile_id", session?.user?.id);
+
+            if (!error) setProjectIdeas(data || []);
+        };
+        
+
         loadTags();
         loadSavedTags();
+        yourProjectIdeas();
     }, [session?.user?.id]);
-
 
     //name, email, office room
     useEffect(() => {
@@ -61,6 +73,22 @@ const Profile = () => {
         loadProfile();
     }, [session?.user?.id]);
 
+    const handleDeleteProject = async (projectId) => {
+        if (!projectId) return;
+
+        const { error } = await supabase
+            .from("profile_project")
+            .delete()
+            .eq("project_id", projectId);
+
+        if (error) {
+            console.error("Failed to delete project idea", error);
+            return;
+        }
+
+        setProjectIdeas((prev) => prev.filter((item) => item.project_id !== projectId));
+    };
+
     const handleSaveProfile = async (e) => {
         e.preventDefault();
 
@@ -74,7 +102,7 @@ const Profile = () => {
         const profileId = session?.user?.id;
 
         if (!profileId) {
-            console.error("No profile id available");
+            console.error("Profile id was not available");
             return;
         }
 
@@ -105,57 +133,90 @@ const Profile = () => {
     };
 
     return (
-        <div className="center">
-            <input
-                className="p-3 w-100 bg-black text-white"
-                type="text"
-                placeholder={name}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-            <input
-                className="p-3 w-40 bg-black text-white ml-2"
-                type="text"
-                placeholder={contactOffice}
-                value={contactOffice}
-                onChange={(e) => setContactOffice(e.target.value)}
-            />
-
-            <div className="center mt-4">
+        <div>
+            <NavBar />
+            <div className="center mt-10 ">
                 <input
-                    className="p-3 w-150 bg-black text-white"
-                    type="email"
-                    placeholder={contactEmail}
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
+                    className="p-3 w-100 bg-black text-white"
+                    type="text"
+                    placeholder={name}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                 />
-            </div>
-            <div className="center mt-4 flex flex-wrap gap-2">
-                {tags.map((item, index) => {
-                    const isSelected = selectedTags.includes(item.id);
+                <input
+                    className="p-3 w-40 bg-black text-white ml-2"
+                    type="text"
+                    placeholder={contactOffice}
+                    value={contactOffice}
+                    onChange={(e) => setContactOffice(e.target.value)}
+                />
 
-                    return (
-                        <button
-                            key={item.id ?? `${item.tag_name}-${index}`}
-                            type="button"
-                            onClick={() =>
-                                setSelectedTags((prev) =>
-                                    prev.includes(item.id)
-                                        ? prev.filter((id) => id !== item.id)
-                                        : [...prev, item.id]
-                                )
-                            }
-                            className={`toggle-btn ${isSelected ? "toggled" : ""}`}
-                        >
-                            {item.tag_name || "Tag"}
-                        </button>
-                    );
-                })}
+                <div className="center mt-4">
+                    <input
+                        className="p-3 w-150 bg-black text-white"
+                        type="email"
+                        placeholder={contactEmail}
+                        value={contactEmail}
+                        onChange={(e) => setContactEmail(e.target.value)}
+                    />
+                </div>
+                <div className="text-white text-3xl p-4 mt-6">Interests</div>
+                <div className="center mt-4 flex flex-wrap gap-2">
+                    {tags.map((item, index) => {
+                        const isSelected = selectedTags.includes(item.id);
+
+                        return (
+                            <button
+                                key={item.id ?? `${item.tag_name}-${index}`}
+                                type="button"
+                                onClick={() =>
+                                    setSelectedTags((prev) =>
+                                        prev.includes(item.id)
+                                            ? prev.filter((id) => id !== item.id)
+                                            : [...prev, item.id]
+                                    )
+                                }
+                                className={`toggle-btn ${isSelected ? "toggled" : ""}`}
+                            >
+                                {item.tag_name || "Tag"}
+                            </button>
+                        );
+                    })}
+                </div>
+                <button style={{ cursor: 'pointer' }} onClick={handleSaveProfile} className="bg-blue-500 text-white p-3 mt-3 rounded">
+                    Save Profile
+                </button>
+                    <div className="text-white text-3xl p-4 mt-6">Project Ideas you made</div>
+                        <div>{projectIdeas.map((item) => (
+                            <div style={{ 
+                                padding: '20px', 
+                                border: '1px solid #ccc', 
+                                borderRadius: '8px', 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                gap: '10px',
+                                maxWidth: 'auto'
+                                }} key={item.project_id}> 
+                            <div className="text-white font-bold text-xl">
+                                {item.title}
+                            </div>
+                            <div className="text-white">
+                                {item.description}
+                            </div>
+                            <div flex justify-center>
+                            <button
+                                className="delete-btn"
+                                onClick={() => handleDeleteProject(item.project_id)}
+                            >
+                                Delete
+                            </button>
+                                </div>
+                            
+                            </div>
+                        
+                            ))}
+                        </div>
             </div>
-            
-            <button onClick={handleSaveProfile} className="bg-blue-500 text-white p-3 mt-3 w-fit">
-                Save Profile
-            </button>
         </div>
     );
 };

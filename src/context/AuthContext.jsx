@@ -21,6 +21,37 @@ export const AuthContextProvider = ({ children }) => {
         return { success: true, data: data };
     };
 
+    //Adding new project idea
+    const saveProject = async (title, description) => {
+        if (!session?.user?.id) {
+            return { success: false, error: "No active session" };
+        }
+
+        const safeTitle = title?.trim();
+        const safeDescription = description?.trim() || "";
+
+        if (!safeTitle) {
+            return { success: false, error: "Title is required" };
+        }
+
+        const { data, error } = await supabase
+            .from("profile_project")
+            .insert({
+                profile_id: session.user.id,
+                title: safeTitle,
+                description: safeDescription,
+            })
+            .eq("id", session?.user?.id).select();
+
+
+        if (error) {
+            console.error("There was an error saving the project idea:", error);
+            return { success: false, error };
+        }
+
+        return { success: true, data };
+    };
+
     //Sign Up
     const signUpNewUser = async (email, password) => {
         const { data, error } = await supabase.auth.signUp({
@@ -82,7 +113,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ session, signUpNewUser, signInUser, signOut, saveProfile }}>
+        <AuthContext.Provider value={{ session, signUpNewUser, signInUser, signOut, saveProfile, saveProject }}>
             {children}
         </AuthContext.Provider>
     )
