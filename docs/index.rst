@@ -32,6 +32,7 @@ Use the sections below to get started and explore the project.
 
    installation
    architecture
+   components
 
 Getting Started
 ***************
