@@ -26,7 +26,7 @@ Supervisor Finder is a Web application built with Supabase, React and tailwind, 
 ![](src/assets/read_me_pics/Add_Project_idea.png)
 
 ## Documentation
-ReadTheDocs Page: [Link]()
+ReadTheDocs Page: [Link](https://deferral-supervisor-finder.readthedocs.io/en/latest/)
 
 ## Installation & Project Setup
 
