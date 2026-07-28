@@ -19,7 +19,8 @@ Documentation Structure
 Quick Links
 ***********
 
-- [Getting Started]()
+- `Getting Started <getting-started.rst>`
+- [Getting Started](getting-started.rst)
 - [Components]()
 - [Authentication Pages]()
 - [Database Schema]()
