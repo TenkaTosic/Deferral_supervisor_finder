@@ -1,26 +1,45 @@
 Supervisor Finder Documentation
 ===============================
 
-Welcome to the official documentation for the Supervisor Finder project!
+Welcome to the documentation for Supervisor Finder, a web application that helps students connect with supervisors for their final-year projects.
 
 Overview
 ********
 
-Supervisor Finder is an application designed to help find their own supervisor for their final year project. It supports 2 different user roles being students and supervisors. Also has tags of interests, and project ideas.
+Supervisor Finder is built with React, Vite, and Supabase. It supports two main user roles:
 
-Documentation Structure
-***********************
+- Students can search for supervisors by name or area of interest.
+- Supervisors can manage their profiles and add project ideas.
 
-- **Getting Started:** Setup, installation, and running the project
-- **Components:** Components and usage
-- **Authentication:** Authentication flow and pages
-- **Database:** Schema, reference data, and triggers
+This project is designed to make supervisor discovery simpler and more structured for academic projects.
 
-Quick Links
-***********
+Features
+********
 
-- `Getting Started <getting-started.rst>`
-- [Getting Started](getting-started.rst)
-- [Components]()
-- [Authentication Pages]()
-- [Database Schema]()
+- Search supervisors by name and interests
+- Role-based access for students and supervisors
+- Supervisor profile management
+- Ability to add and view project ideas
+
+Documentation
+*************
+
+Use the sections below to get started and explore the project.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents
+
+   getting-started
+
+Getting Started
+***************
+
+To run the application locally, follow the setup instructions in the Getting Started guide.
+
+Indices and tables
+*******************
+
+- :ref:`genindex`
+- :ref:`modindex`
+- :ref:`search`
