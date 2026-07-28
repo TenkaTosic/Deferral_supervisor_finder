@@ -1,7 +1,7 @@
 Supervisor Finder Documentation
 ===============================
 
-Welcome to the documentation for Supervisor Finder, a web application that helps students connect with supervisors for their final-year projects.
+Welcome to the documentation for Supervisor Finder, a web application that helps students find a supervisor for their final-year projects.
 
 Overview
 ********
@@ -30,10 +30,8 @@ Use the sections below to get started and explore the project.
    :maxdepth: 2
    :caption: Contents
 
-   getting-started
    installation
    architecture
-   contribution-guidelines
 
 Getting Started
 ***************
