@@ -31,15 +31,11 @@ Use the sections below to get started and explore the project.
    :caption: Contents
 
    getting-started
+   installation
+   architecture
+   contribution-guidelines
 
 Getting Started
 ***************
 
 To run the application locally, follow the setup instructions in the Getting Started guide.
-
-Indices and tables
-*******************
-
-- :ref:`genindex`
-- :ref:`modindex`
-- :ref:`search`
