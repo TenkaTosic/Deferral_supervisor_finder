@@ -29,7 +29,7 @@ The application uses Supabase for:
 - Database storage
 - User and project-related data management
 
-This allows the app to manage users, supervisors, and project ideas without building a custom server.
+This allows the app to manage supervisors, and project ideas without building a custom server.
 
 Project Structure
 -----------------
@@ -38,5 +38,4 @@ Key folders include:
 
 - src/components: reusable UI components
 - src/context: authentication context
-- src/assets: images and static assets
 - docs: Sphinx documentation files

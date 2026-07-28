@@ -6,10 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'test'
-copyright = '2026, test'
-author = 'test'
-release = 'test'
+project = 'Supervisor Finder'
+copyright = '2026, Supervisor Finder'
+author = 'Supervisor Finder Team'
+release = '1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
