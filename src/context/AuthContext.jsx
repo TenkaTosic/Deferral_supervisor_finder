@@ -12,9 +12,9 @@ export const AuthContextProvider = ({ children }) => {
         const {data, error} = await supabase
         .from("profile")
         .update({
-            name: name,
-            contact_office: contactOffice,
-            contact_email: contactEmail,
+            name: name.trim(),
+            contact_office: contactOffice.trim(),
+            contact_email: contactEmail.trim(),
         }).eq("id", session?.user?.id).select(); //Make sure that the current user changes only their own profile
 
         //handle errors

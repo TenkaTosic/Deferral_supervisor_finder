@@ -148,14 +148,14 @@ const Profile = () => {
                     type="text"
                     placeholder={name}
                     value={name}
-                    onChange={(e) => setName(e.target.value.trim())}
+                    onChange={(e) => setName(e.target.value)}
                 />
                 <input
                     className="p-3 w-40 bg-black text-white ml-2"
                     type="text"
                     placeholder={contactOffice}
                     value={contactOffice}
-                    onChange={(e) => setContactOffice(e.target.value.trim())}
+                    onChange={(e) => setContactOffice(e.target.value)}
                 />
 
                 <div className="center mt-4">
@@ -164,7 +164,7 @@ const Profile = () => {
                         type="email"
                         placeholder={contactEmail}
                         value={contactEmail}
-                        onChange={(e) => setContactEmail(e.target.value.trim())}
+                        onChange={(e) => setContactEmail(e.target.value)}
                     />
                 </div>
                 {/* Tag of Interests */}
